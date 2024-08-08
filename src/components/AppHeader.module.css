@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lexend:wght@100..900&display=swap');
+
 .header {
 	display: flex;
 	justify-content: space-between;
@@ -13,11 +13,9 @@
 }
 .logo p {
 	color: #1c1c1c;
-	font-family: Lexend;
 	font-size: 18px;
-	font-style: normal;
 	font-weight: 500;
-	line-height: 21px; /* 116.667% */
+	line-height: 21px; 
 	margin-left: 18px;
 }
 .circle {
