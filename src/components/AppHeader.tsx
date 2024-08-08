@@ -1,11 +1,11 @@
 import React from 'react'
-import styles from './Header.module.css'
-interface AppHeaderProps {
+import styles from './AppHeader.module.css'
+type AppHeaderProps = {
 	cardsAmount: number
 }
-const Header = ({ cardsAmount }: AppHeaderProps) => {
+const AppHeader = ({ cardsAmount }: AppHeaderProps) => {
 	return (
-		<>
+		<header className={styles.header}>
 			<div className={styles.logo}>
 				<img src='/Logo.png' alt='logo' />
 				<p>{`Cards: ${cardsAmount}`}</p>
@@ -13,8 +13,8 @@ const Header = ({ cardsAmount }: AppHeaderProps) => {
 			<div className={styles.circle}>
 				<img src='/Icon.png' alt='plus icon' />
 			</div>
-		</>
+		</header>
 	)
 }
 
-export { Header }
+export { AppHeader }
