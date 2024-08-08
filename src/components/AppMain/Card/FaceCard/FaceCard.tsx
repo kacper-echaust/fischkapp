@@ -1,10 +1,16 @@
 import styles from './FaceCard.module.css'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 
-const FaceCard = () => {
-	const [value, setValue] = useState('')
+const FaceCard = ({ setCardList, index }) => {
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue(event.target.value)
+		setCardList(prevCardList => {
+			prevCardList.map((card, index2) => {
+				if (index === index2) {
+					return { title: event.target.value, value: '' }
+				}
+				return card
+			})
+		})
 	}
 	return (
 		<form
