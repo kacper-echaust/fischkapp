@@ -1,10 +1,12 @@
+import { CardContext } from '../../../Context/CardListProvider'
 import styles from './FaceCard.module.css'
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useContext } from 'react'
 
-const FaceCard = ({ setCardList, index }) => {
+const FaceCard = ({ index }) => {
+	const { setCardList } = useContext(CardContext)
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setCardList(prevCardList => {
-			prevCardList.map((card, index2) => {
+			return prevCardList.map((card, index2) => {
 				if (index === index2) {
 					return { title: event.target.value, value: '' }
 				}

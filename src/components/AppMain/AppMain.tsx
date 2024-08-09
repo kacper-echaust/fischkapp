@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FaceCard } from './Card/FaceCard/FaceCard'
+import { CardContext } from '../Context/CardListProvider'
 
-const AppMain = ({ cardList, setCardList }) => {
+const AppMain = () => {
+	const { cardList } = useContext(CardContext)
 	return (
 		<main>
-			{cardList.map((card,index) => {
-				return <FaceCard setCardList={setCardList} index={index}/>
+			{cardList.map((card, index) => {
+				return <FaceCard index={index} />
 			})}
 		</main>
 	)
 }
 
 export { AppMain }
- 

@@ -1,12 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './AppHeader.module.css'
-import { CardList } from '../App'
-type AppHeaderProps = {
-	cardsAmount: number
-	setCardList: React.Dispatch<React.SetStateAction<CardList[]>>
-	cardList: CardList[]
-}
-const AppHeader = ({ cardsAmount, setCardList, cardList }: AppHeaderProps) => {
+import { CardContext } from './Context/CardListProvider'
+
+const AppHeader = () => {
+	const { setCardList, cardList } = useContext(CardContext)
 	const handleAddCard = () => {
 		setCardList(prevCardList => {
 			return [...prevCardList, { title: '', value: '' }]
@@ -16,7 +13,7 @@ const AppHeader = ({ cardsAmount, setCardList, cardList }: AppHeaderProps) => {
 		<header className={styles.header}>
 			<div className={styles.logo}>
 				<img src='/Logo.png' alt='logo' />
-				<p>{`Cards: ${cardsAmount}`}</p>
+				<p>{`Cards: ${cardList.length}`}</p>
 			</div>
 			<div className={styles.circle} onClick={handleAddCard}>
 				<img src='/Icon.png' alt='plus icon' />
