@@ -1,4 +1,4 @@
-export type CardList = {
+export type Card = {
 	title: string
 	value: string
 }

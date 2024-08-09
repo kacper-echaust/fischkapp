@@ -3,11 +3,9 @@ import styles from './AppHeader.module.css'
 import { CardContext } from './Context/CardListProvider'
 
 const AppHeader = () => {
-	const { setCardList, cardList } = useContext(CardContext)
+	const { cardList, setIsAdding } = useContext(CardContext)
 	const handleAddCard = () => {
-		setCardList(prevCardList => {
-			return [...prevCardList, { title: '', value: '' }]
-		})
+		setIsAdding(true)
 	}
 	return (
 		<header className={styles.header}>
