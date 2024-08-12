@@ -4,11 +4,11 @@ import { NewCard } from './NewCard/NewCard'
 import { DisplayCard } from './DisplayCard/DisplayCard'
 
 const AppMain = () => {
-	const { isAdding, cardList } = useContext(CardContext)
+	const { isAddingNewCard, cardList } = useContext(CardContext)
 	const displayCardList = cardList.map(card => {
 		return <DisplayCard value={card.title} />
 	})
-	return <main>{isAdding ? <NewCard /> : displayCardList}</main>
+	return <main>{isAddingNewCard ? <NewCard /> : displayCardList}</main>
 }
 
 export { AppMain }

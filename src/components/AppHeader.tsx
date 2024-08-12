@@ -3,10 +3,8 @@ import styles from './AppHeader.module.css'
 import { CardContext } from './Context/CardListProvider'
 
 const AppHeader = () => {
-	const { cardList, setIsAdding } = useContext(CardContext)
-	const handleAddCard = () => {
-		setIsAdding(true)
-	}
+	const { cardList, handleAddCard } = useContext(CardContext)
+
 	return (
 		<header className={styles.header}>
 			<div className={styles.logo}>

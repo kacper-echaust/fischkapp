@@ -1,37 +1,47 @@
 import { CardContext } from '../../Context/CardListProvider'
+import { Card } from '../../types'
 import styles from './NewCard.module.css'
-import React, { ChangeEvent, useContext } from 'react'
+import React, { ChangeEvent, useContext, useState } from 'react'
+
+enum CardSide {
+	Front = 'front',
+	Back = 'back',
+}
 
 const NewCard = () => {
-	const { setEditingCard, editingCard, setIsAdding, isSecondSide, setIsSecondSide, setCardList } =
-		useContext(CardContext)
+	const [card, setCardValues] = useState<Card>({
+		title: '',
+		value: '',
+	})
+	const [currentSide, setCurrentSide] = useState(CardSide.Front)
+	const { setIsAddingNewCard, setCardList } = useContext(CardContext)
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		if (!isSecondSide) {
-			setEditingCard(prevValue => {
+		if (currentSide === CardSide.Front) {
+			setCardValues(prevValue => {
 				return { ...prevValue, title: event.target.value }
 			})
 		} else {
-			setEditingCard(prevValue => {
+			setCardValues(prevValue => {
 				return { ...prevValue, value: event.target.value }
 			})
 		}
 	}
 	const handleCancel = () => {
-		setIsAdding(false)
+		setIsAddingNewCard(false)
 	}
 	const handleNext = () => {
-		setIsSecondSide(true)
+		setCurrentSide(CardSide.Back)
 	}
 	const handleBack = () => {
-		setIsSecondSide(false)
+		setCurrentSide(CardSide.Front)
 	}
 	const handleSave = () => {
 		setCardList(prevCardList => {
-			return [...prevCardList, editingCard]
+			return [...prevCardList, card]
 		})
-		setIsSecondSide(false)
-		setIsAdding(false)
-		setEditingCard({ title: '', value: '' })
+		setCurrentSide(CardSide.Front)
+		setIsAddingNewCard(false)
+		setCardValues({ title: '', value: '' })
 	}
 	return (
 		<form
@@ -39,19 +49,21 @@ const NewCard = () => {
 			onSubmit={event => {
 				event.preventDefault()
 			}}>
-			{isSecondSide && <label className={styles.label}>{editingCard.title}</label>}
+			{currentSide && <label className={styles.label}>{card.title}</label>}
 			<input
 				className={styles.input}
 				type='text'
 				onChange={handleInputChange}
-				value={isSecondSide ? editingCard.value : editingCard.title}
+				value={currentSide === CardSide.Back ? card.value : card.title}
 			/>
 			<div className={styles.containerButtons}>
-				<button className={styles.cancelButton} onClick={isSecondSide ? handleBack : handleCancel}>
-					{isSecondSide ? 'Back' : 'Cancel'}
+				<button
+					className={styles.cancelButton}
+					onClick={currentSide === CardSide.Back ? handleBack : handleCancel}>
+					{currentSide === CardSide.Back ? 'Back' : 'Cancel'}
 				</button>
-				<button className={styles.nextButton} onClick={isSecondSide ? handleSave : handleNext}>
-					{isSecondSide ? 'Save' : 'Next'}
+				<button className={styles.nextButton} onClick={currentSide === CardSide.Back ? handleSave : handleNext}>
+					{currentSide === CardSide.Back ? 'Save' : 'Next'}
 				</button>
 			</div>
 		</form>
