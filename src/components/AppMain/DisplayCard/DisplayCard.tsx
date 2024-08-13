@@ -34,12 +34,20 @@ const DisplayCard = ({ value }: DisplayCardProps) => {
 	const handleEdit = () => {
 		setIsEdit(Edit.True)
 	}
+	const handleDelete = () => {
+		const filteredCardList = cardList.filter(card => {
+			return card !== value
+		})
+		setCardList(filteredCardList)
+		setIsEdit(Edit.False)
+	}
 	return (
 		<div className={styles.container}>
 			{isEdit === Edit.True ? (
 				<div className={styles.editModeContainer}>
 					<input type='text' value={currentValue} onChange={handleInputChange} className={styles.input}/>
 					<Buttons onSave={handleSave} onCancel={handleCancel} edit={isEdit} />
+					<img src='trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 				</div>
 			) : (
 				<>
