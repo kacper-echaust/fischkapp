@@ -12,19 +12,31 @@ export enum Edit {
 	False = 'no',
 }
 const DisplayCard = ({ value }: DisplayCardProps) => {
-	const { cardList, setCardList, currentSide } = useContext(CardContext)
+	const { setCardList, currentSide } = useContext(CardContext)
 	const [isEdit, setIsEdit] = useState(Edit.False)
-	const [currentValue, setCurrentValue] = useState()
+	const [currentValue, setCurrentValue] = useState<Card>({
+		title: '',
+		value: '',
+	})
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		// setCurrentValue(event.target.value)
+		if (currentSide === CardSide.Front) {
+			setCurrentValue(prevValue => {
+				return { ...prevValue, title: event.target.value }
+			})
+		} else {
+			setCurrentValue(prevValue => {
+				return { ...prevValue, value: event.target.value }
+			})
+		}
 	}
 	const handleSave = () => {
-    cardList.map(card => {
-      if(card === value) {
-
-      }
-    })
-  }
+		setCardList(prevCardList => {
+			return prevCardList.map(card => {
+				return card === value ? { ...card, currentValue } : card
+			})
+		})
+		setIsEdit(Edit.False)
+	}
 	const handleCancel = () => {
 		setIsEdit(Edit.False)
 	}
@@ -35,7 +47,11 @@ const DisplayCard = ({ value }: DisplayCardProps) => {
 		<div className={styles.container}>
 			{isEdit === Edit.True ? (
 				<>
-					<input type='text' value={currentValue} onChange={handleInputChange} />
+					<input
+						type='text'
+						value={currentSide === CardSide.Front ? currentValue.title : currentValue.value}
+						onChange={handleInputChange}
+					/>
 					<Buttons onSave={handleSave} onCancel={handleCancel} edit={isEdit} />
 				</>
 			) : (
