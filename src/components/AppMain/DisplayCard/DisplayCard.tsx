@@ -2,7 +2,7 @@ import React, { ChangeEvent, useContext, useState } from 'react'
 import styles from './DisplayCard.module.css'
 import { Buttons } from '../NewCard/Buttons/Buttons'
 import { Card } from '../../types'
-import { CardContext, CardSide } from '../../Context/CardListProvider'
+import { CardContext } from '../../Context/CardListProvider'
 
 type DisplayCardProps = {
 	value: Card
@@ -12,29 +12,20 @@ export enum Edit {
 	False = 'no',
 }
 const DisplayCard = ({ value }: DisplayCardProps) => {
-	const { setCardList, currentSide } = useContext(CardContext)
+	const { cardList, setCardList } = useContext(CardContext)
 	const [isEdit, setIsEdit] = useState(Edit.False)
-	const [currentValue, setCurrentValue] = useState<Card>({
-		title: '',
-		value: '',
-	})
+	const [currentValue, setCurrentValue] = useState<string>(value.title)
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		if (currentSide === CardSide.Front) {
-			setCurrentValue(prevValue => {
-				return { ...prevValue, title: event.target.value }
-			})
-		} else {
-			setCurrentValue(prevValue => {
-				return { ...prevValue, value: event.target.value }
-			})
-		}
+		setCurrentValue(event.target.value)
 	}
 	const handleSave = () => {
-		setCardList(prevCardList => {
-			return prevCardList.map(card => {
-				return card === value ? { ...card, currentValue } : card
-			})
+		const editCardList = cardList.map(card => {
+			if (card === value) {
+				return { ...card, title: currentValue }
+			}
+			return card
 		})
+		setCardList(editCardList)
 		setIsEdit(Edit.False)
 	}
 	const handleCancel = () => {
@@ -46,14 +37,10 @@ const DisplayCard = ({ value }: DisplayCardProps) => {
 	return (
 		<div className={styles.container}>
 			{isEdit === Edit.True ? (
-				<>
-					<input
-						type='text'
-						value={currentSide === CardSide.Front ? currentValue.title : currentValue.value}
-						onChange={handleInputChange}
-					/>
+				<div className={styles.editModeContainer}>
+					<input type='text' value={currentValue} onChange={handleInputChange} className={styles.input}/>
 					<Buttons onSave={handleSave} onCancel={handleCancel} edit={isEdit} />
-				</>
+				</div>
 			) : (
 				<>
 					<p>{value.title}</p>
