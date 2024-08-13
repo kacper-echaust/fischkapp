@@ -1,12 +1,32 @@
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 343px;
-  height: 188px;
-  flex-shrink: 0;
-  border-radius: 15px;
-  border: 1px solid var(--Border, #ebebec);
-  background: var(--White, #fff);
-  margin: 15px 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	width: 343px;
+	height: 188px;
+	flex-shrink: 0;
+	border-radius: 15px;
+	border: 1px solid var(--Border, #ebebec);
+	background: var(--White, #fff);
+	margin: 15px 16px;
+}
+.editIcon {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.editModeContainer{
+	display: flex;
+	flex-direction: column;
+}
+.editModeContainer .input {
+	width: 315px;
+	height: 40px;
+	flex-shrink: 0;
+	border: 1px solid var(--Border, #ebebec);
+	margin: 50px 14px 46px 14px;
+	color: var(--Accent, #161616);
+	font-size: 16px;
+	padding: 10px 10px 10px 12px;
 }
