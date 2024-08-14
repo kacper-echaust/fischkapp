@@ -29,7 +29,8 @@ const DisplayCard = ({ value }: DisplayCardProps) => {
 	const handleCancel = () => {
 		setIsEdit(Edit.False)
 	}
-	const handleEdit = () => {
+	const handleEdit = event => {
+		event.stopPropagation()
 		setIsEdit(Edit.True)
 	}
 	const handleDelete = () => {
@@ -40,8 +41,13 @@ const DisplayCard = ({ value }: DisplayCardProps) => {
 		})
 		setIsEdit(Edit.False)
 	}
+	const handleFlip = () => {
+		setCurrentValue(prevValue => {
+			return prevValue === value.title ? value.value : value.title
+		})
+	}
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} onClick={isEdit === Edit.False ? handleFlip : undefined}>
 			{isEdit === Edit.True ? (
 				<div className={styles.editModeContainer}>
 					<input type='text' value={currentValue} onChange={handleInputChange} className={styles.input} />
@@ -49,10 +55,17 @@ const DisplayCard = ({ value }: DisplayCardProps) => {
 					<img src='trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 				</div>
 			) : (
-				<>
-					<p>{value.title}</p>
-					<img src='edit-icon.png' alt='edit icon' className={styles.editIcon} onClick={handleEdit} />
-				</>
+				<div>
+					<p>{currentValue}</p>
+					<img
+						src='edit-icon.png'
+						alt='edit icon'
+						className={styles.editIcon}
+						onClick={event => {
+							handleEdit(event)
+						}}
+					/>
+				</div>
 			)}
 		</div>
 	)
