@@ -28,7 +28,10 @@ const defaultContext: CardContextType = {
 const CardContext = createContext<CardContextType>(defaultContext)
 
 const CardListProvider = ({ children }) => {
-	const [cardList, setCardList] = useState<Card[]>([])
+	const [cardList, setCardList] = useState<Card[]>([
+		{ title: 'Lorem Ipsum', value: 'Dolor sit', id: 1231231 },
+		{ title: 'Dolor sit', value: 'Lorem Ipsum', id: 323533 },
+	])
 	const [isAddingNewCard, setIsAddingNewCard] = useState(false)
 	const [currentSide, setCurrentSide] = useState(CardSide.Front)
 	const handleAddCard = () => {
