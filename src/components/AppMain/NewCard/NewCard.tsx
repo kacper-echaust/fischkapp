@@ -40,6 +40,11 @@ const NewCard = () => {
 		setIsAddingNewCard(false)
 		setCardValues({ title: '', value: '', id: 0 })
 	}
+	const handleDelete = () => {
+		setCardValues({ title: '', value: '', id: 0 })
+		setCurrentSide(CardSide.Front)
+		setIsAddingNewCard(false)
+	}
 	return (
 		<form
 			className={styles.form}
@@ -61,6 +66,9 @@ const NewCard = () => {
 				onSave={handleSave}
 				edit={''}
 			/>
+			{currentSide === CardSide.Back && (
+				<img src='trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
+			)}
 		</form>
 	)
 }
