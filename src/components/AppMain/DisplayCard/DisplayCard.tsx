@@ -12,20 +12,18 @@ export enum Edit {
 	False = 'no',
 }
 const DisplayCard = ({ value }: DisplayCardProps) => {
-	const { cardList, setCardList } = useContext(CardContext)
+	const { setCardList } = useContext(CardContext)
 	const [isEdit, setIsEdit] = useState(Edit.False)
 	const [currentValue, setCurrentValue] = useState<string>(value.title)
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setCurrentValue(event.target.value)
 	}
 	const handleSave = () => {
-		const editCardList = cardList.map(card => {
-			if (card === value) {
-				return { ...card, title: currentValue }
-			}
-			return card
+		setCardList(prevCardList => {
+			return prevCardList.map(card => {
+				return card.id === value.id ? { ...card, title: currentValue } : card
+			})
 		})
-		setCardList(editCardList)
 		setIsEdit(Edit.False)
 	}
 	const handleCancel = () => {
@@ -35,17 +33,18 @@ const DisplayCard = ({ value }: DisplayCardProps) => {
 		setIsEdit(Edit.True)
 	}
 	const handleDelete = () => {
-		const filteredCardList = cardList.filter(card => {
-			return card !== value
+		setCardList(prevCardList => {
+			return prevCardList.filter(card => {
+				return card.id !== value.id
+			})
 		})
-		setCardList(filteredCardList)
 		setIsEdit(Edit.False)
 	}
 	return (
 		<div className={styles.container}>
 			{isEdit === Edit.True ? (
 				<div className={styles.editModeContainer}>
-					<input type='text' value={currentValue} onChange={handleInputChange} className={styles.input}/>
+					<input type='text' value={currentValue} onChange={handleInputChange} className={styles.input} />
 					<Buttons onSave={handleSave} onCancel={handleCancel} edit={isEdit} />
 					<img src='trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 				</div>
