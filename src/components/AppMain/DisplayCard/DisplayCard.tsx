@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useState } from 'react'
+import React, { ChangeEvent, useContext, useRef, useState } from 'react'
 import styles from './DisplayCard.module.css'
 import { Buttons } from '../NewCard/Buttons/Buttons'
 import { Card } from '../../types'
@@ -12,9 +12,10 @@ export enum Edit {
 	False = 'no',
 }
 const DisplayCard = ({ value }: DisplayCardProps) => {
-	const { setCardList } = useContext(CardContext)
+	const { setCardList, currentSide } = useContext(CardContext)
 	const [isEdit, setIsEdit] = useState(Edit.False)
 	const [currentValue, setCurrentValue] = useState<string>(value.title)
+	const cardRef = useRef<HTMLDivElement | null>(null)
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setCurrentValue(event.target.value)
 	}
@@ -45,9 +46,23 @@ const DisplayCard = ({ value }: DisplayCardProps) => {
 		setCurrentValue(prevValue => {
 			return prevValue === value.title ? value.value : value.title
 		})
+		if (cardRef.current) {
+			cardRef.current.animate(
+				[
+					{ transform: 'scale(1)', opacity: '1' },
+					{ transform: 'scale(0,1)', opacity: '0.5' },
+					{ transform: 'scale(1)', opacity: '1' },
+				],
+				{
+					duration: 300,
+					iterations: 1,
+				}
+			)
+		}
 	}
+
 	return (
-		<div className={styles.container} onClick={isEdit === Edit.False ? handleFlip : undefined}>
+		<div className={styles.container} onClick={isEdit === Edit.False ? handleFlip : undefined} ref={cardRef}>
 			{isEdit === Edit.True ? (
 				<div className={styles.editModeContainer}>
 					<input type='text' value={currentValue} onChange={handleInputChange} className={styles.input} />

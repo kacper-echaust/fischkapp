@@ -5,8 +5,8 @@ import { DisplayCard } from './DisplayCard/DisplayCard'
 
 const AppMain = () => {
 	const { isAddingNewCard, cardList } = useContext(CardContext)
-	const displayCardList = cardList.map(card => {
-		return <DisplayCard value={card} />
+	const displayCardList = cardList.map((card, index) => {
+		return <DisplayCard value={card} key={index} />
 	})
 	return <main>{isAddingNewCard ? <NewCard /> : displayCardList}</main>
 }
