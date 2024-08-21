@@ -33,9 +33,9 @@ const NewCard = () => {
 		setCurrentSide(CardSide.Front)
 	}
 	const handleSave = () => {
-		// setCardList((prevCardList) => {
-		//   return [...prevCardList, card];
-		// });
+		setCardList((prevCardList) => {
+		  return [...prevCardList, card];
+		});
 		addNewCard(card.front, card.back)
 		setCurrentSide(CardSide.Front)
 		setIsAddingNewCard(false)

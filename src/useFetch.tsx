@@ -35,8 +35,8 @@ const useFetch = () => {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				front: { front },
-				back: { back },
+				front:  front ,
+				back:  back ,
 			}),
 		})
 			.then(res => {
