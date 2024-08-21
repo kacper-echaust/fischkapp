@@ -15,11 +15,11 @@ const NewCard = () => {
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		if (currentSide === CardSide.Front) {
 			setCardValues(prevValue => {
-				return { ...prevValue, front: event.target.value, id: Date.now() }
+				return { ...prevValue, front: event.target.value }
 			})
 		} else {
 			setCardValues(prevValue => {
-				return { ...prevValue, back: event.target.value, id: Date.now() }
+				return { ...prevValue, back: event.target.value }
 			})
 		}
 	}
@@ -33,9 +33,9 @@ const NewCard = () => {
 		setCurrentSide(CardSide.Front)
 	}
 	const handleSave = () => {
-		setCardList((prevCardList) => {
-		  return [...prevCardList, card];
-		});
+		setCardList(prevCardList => {
+			return [...prevCardList, card]
+		})
 		addNewCard(card.front, card.back)
 		setCurrentSide(CardSide.Front)
 		setIsAddingNewCard(false)

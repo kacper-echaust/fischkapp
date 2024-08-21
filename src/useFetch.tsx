@@ -31,12 +31,12 @@ const useFetch = () => {
 		fetch(URL, {
 			method: 'POST',
 			headers: {
-				Authorization: 'secret-token',
+				Authorization: 'secret_token',
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				front:  front ,
-				back:  back ,
+				front: front,
+				back: back,
 			}),
 		})
 			.then(res => {
@@ -47,6 +47,9 @@ const useFetch = () => {
 			})
 			.then(data => {
 				console.log(`Succes`, data)
+				setDataFromApi(prevData => {
+					return [...prevData, data]
+				})
 			})
 			.catch(error => {
 				console.error('Error', error)
