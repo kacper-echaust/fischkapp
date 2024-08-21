@@ -4,9 +4,10 @@ import { Card } from './components/types'
 const URL = 'https://training.nerdbord.io/api/v1/fischkapp/flashcards'
 const useFetch = () => {
 	const [dataFromApi, setDataFromApi] = useState<Card[]>([])
-	const [isLoading, setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
+		setIsLoading(true)
 		fetch(URL, {
 			method: 'GET',
 		})
@@ -28,6 +29,7 @@ const useFetch = () => {
 			})
 	}, [])
 	const addNewCard = (front: string, back: string) => {
+		setIsLoading(true)
 		fetch(URL, {
 			method: 'POST',
 			headers: {
@@ -50,6 +52,7 @@ const useFetch = () => {
 				setDataFromApi(prevData => {
 					return [...prevData, data]
 				})
+				setIsLoading(false)
 			})
 			.catch(error => {
 				console.error('Error', error)
