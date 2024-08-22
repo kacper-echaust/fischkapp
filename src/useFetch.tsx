@@ -58,7 +58,37 @@ const useFetch = () => {
 				console.error('Error', error)
 			})
 	}
-	return { dataFromApi, setDataFromApi, isLoading, addNewCard }
+	const editCard = (id:string,front:string,back:string) => {
+		setIsLoading(true)
+		fetch(`${URL}/${id}`, {
+			method: 'PATCH',
+			headers: {
+				Authorization: 'secret_token',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				front: front,
+				back: back,
+			}),
+		})
+			.then(res => {
+				if (res.ok) {
+					return res.json()
+				}
+				throw new Error('Network response was not ok')
+			})
+			.then(data => {
+				console.log(`Succes`, data)
+				setDataFromApi(prevData => {
+					return [...prevData, data]
+				})
+				setIsLoading(false)
+			})
+			.catch(error => {
+				console.error('Error', error)
+			})
+	}
+	return { dataFromApi, setDataFromApi, isLoading, addNewCard,editCard }
 }
 
 export { useFetch }

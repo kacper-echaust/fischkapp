@@ -3,14 +3,23 @@ import styles from './DisplayCard.module.css'
 import { Buttons } from '../NewCard/Buttons/Buttons'
 import { CardContext, CardSide } from '../../Context/CardListProvider'
 import { Card } from '../../types'
+import { useFetch } from '../../../useFetch'
 
 const DisplayCard = ({ front, back, _id }: Card) => {
 	const { currentSide, setCurrentSide, setCardList } = useContext(CardContext)
+	const { editCard } = useFetch()
 	const [isEdit, setIsEdit] = useState(false)
-	const [currentValue, setCurrentValue] = useState<string>(front)
+	const [currentValue, setCurrentValue] = useState({
+		front: front,
+		back: back,
+	})
 	const cardRef = useRef<HTMLDivElement | null>(null)
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setCurrentValue(event.target.value)
+		setCurrentValue(prevValue => {
+			return currentSide === CardSide.Front
+				? { [front]: event.target.value, ...prevValue }
+				: { [back]: event.target.value, ...prevValue }
+		})
 	}
 	const handleSave = () => {
 		setCardList(prevCardList => {
@@ -20,6 +29,7 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 					: card
 			})
 		})
+		editCard(_id, currentValue.front, currentValue.back)
 		setIsEdit(false)
 	}
 	const handleCancel = () => {
@@ -41,9 +51,9 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 		setCurrentSide(prevSide => {
 			return prevSide === CardSide.Front ? CardSide.Back : CardSide.Front
 		})
-		setCurrentValue(prevValue => {
-			return prevValue === front ? back : front
-		})
+		// setCurrentValue(prevValue => {
+		// 	return currentSide === CardSide.Front ? prevValue.front : prevValue.back
+		// })
 		if (cardRef.current) {
 			cardRef.current.animate(
 				[
@@ -63,13 +73,18 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 		<div className={styles.container} onClick={!isEdit ? handleFlip : undefined} ref={cardRef}>
 			{isEdit ? (
 				<div className={styles.editModeContainer}>
-					<input type='text' value={currentValue} onChange={handleInputChange} className={styles.input} />
+					<input
+						type='text'
+						value={currentSide === CardSide.Front ? currentValue.front : currentValue.back}
+						onChange={handleInputChange}
+						className={styles.input}
+					/>
 					<Buttons onSave={handleSave} onCancel={handleCancel} edit={isEdit} />
 					<img src='trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 				</div>
 			) : (
 				<div>
-					<p>{currentValue}</p>
+					<p>{currentSide === CardSide.Front ? currentValue.front : currentValue.back}</p>
 					<img
 						src='edit-icon.png'
 						alt='edit icon'
