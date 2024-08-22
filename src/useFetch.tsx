@@ -88,7 +88,34 @@ const useFetch = () => {
         console.error("Error", error);
       });
   };
-  return { dataFromApi, setDataFromApi, isLoading, addNewCard, editCard };
+  const deleteCard = (id:string) => {
+    setIsLoading(true);
+    fetch(`${URL}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "secret_token"
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error("Network response was not ok");
+      })
+      .then((data) => {
+        console.log(`Succes`, data);
+        setDataFromApi((prevData) => {
+          return prevData.filter(() => {
+            id !== prevData['_id']
+          })
+        });
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error", error);
+      });
+  }
+  return { dataFromApi, setDataFromApi, isLoading, addNewCard, editCard,deleteCard };
 };
 
 export { useFetch };
