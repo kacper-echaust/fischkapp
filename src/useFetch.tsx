@@ -32,16 +32,16 @@ const useFetch = () => {
 				console.error(`Failed to fetch flashcards: ${error}`)
 			})
 	}, [])
-	const addNewCard = async (front: string, back: string) => {
+	const addNewCard =  (front: string, back: string) => {
 		const options = {
 			headers: {
 				Authorization: 'secret_token',
 			},
 			body: JSON.stringify({ front: front, back: back }),
 		}
-		await fetchData(Methods.Post, URL, options)
+		 fetchData(Methods.Post, URL, options)
 	}
-	const editCard = async (id: string, front: string, back: string) => {
+	const editCard =  (id: string, front: string, back: string) => {
 		const options = {
 			headers: {
 				Authorization: 'secret_token',
@@ -52,15 +52,15 @@ const useFetch = () => {
 				back: back,
 			}),
 		}
-		await fetchData(Methods.Patch, `${URL}/${id}`, options)
+		 fetchData(Methods.Patch, `${URL}/${id}`, options)
 	}
-	const deleteCard = async (id: string) => {
+	const deleteCard =  (id: string) => {
 		const options = {
 			headers: {
 				Authorization: 'secret_token',
 			},
 		}
-		await fetchData(Methods.Delete, `${URL}/${id}`, options)
+		 fetchData(Methods.Delete, `${URL}/${id}`, options)
 		setDataFromApi(prevData => {
 			return prevData.filter(() => {
 				id !== prevData['_id']
