@@ -10,6 +10,7 @@ const NewCard = () => {
 	const [card, setCardValues] = useState({
 		front: '',
 		back: '',
+		_id: '',
 	})
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,10 +40,10 @@ const NewCard = () => {
 		addNewCard(card.front, card.back)
 		setCurrentSide(CardSide.Front)
 		setIsAddingNewCard(false)
-		setCardValues({ front: '', back: '' })
+		setCardValues({ front: '', back: '', _id: '' })
 	}
 	const handleDelete = () => {
-		setCardValues({ front: '', back: '' })
+		setCardValues({ front: '', back: '', _id: '' })
 		setCurrentSide(CardSide.Front)
 		setIsAddingNewCard(false)
 	}
