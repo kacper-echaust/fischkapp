@@ -6,27 +6,27 @@ import { Card } from '../../types'
 import { useFetch } from '../../../useFetch'
 
 const DisplayCard = ({ front, back, _id }: Card) => {
-	const { currentSide, setCurrentSide, setCardList } = useContext(CardContext)
-	const { editCard } = useFetch()
+	const { setCardList } = useContext(CardContext)
+	const { editCard, deleteCard } = useFetch()
 	const [isEdit, setIsEdit] = useState(false)
+	const [currentSide, setCurrentSide] = useState(CardSide.Front)
 	const [currentValue, setCurrentValue] = useState({
 		front: front,
 		back: back,
 	})
 	const cardRef = useRef<HTMLDivElement | null>(null)
+
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setCurrentValue(prevValue => {
-			return currentSide === CardSide.Front
-				? { [front]: event.target.value, ...prevValue }
-				: { [back]: event.target.value, ...prevValue }
-		})
+		const { value } = event.target
+		setCurrentValue(prevValue => ({
+			...prevValue,
+			[currentSide === CardSide.Front ? 'front' : 'back']: value,
+		}))
 	}
 	const handleSave = () => {
 		setCardList(prevCardList => {
 			return prevCardList.map(card => {
-				return card._id === _id
-					? { ...card, [CardSide.Front === currentSide ? 'front' : 'back']: currentValue }
-					: card
+				return card._id === _id ? { ...card, front: currentValue.front, back: currentValue.back } : card
 			})
 		})
 		editCard(_id, currentValue.front, currentValue.back)
@@ -45,15 +45,13 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 				return card._id !== _id
 			})
 		})
+		deleteCard(_id)
 		setIsEdit(false)
 	}
 	const handleFlip = () => {
 		setCurrentSide(prevSide => {
 			return prevSide === CardSide.Front ? CardSide.Back : CardSide.Front
 		})
-		// setCurrentValue(prevValue => {
-		// 	return currentSide === CardSide.Front ? prevValue.front : prevValue.back
-		// })
 		if (cardRef.current) {
 			cardRef.current.animate(
 				[
