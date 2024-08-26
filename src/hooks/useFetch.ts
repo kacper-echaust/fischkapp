@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
-import { Card } from './components/types'
-enum Methods {
+import { Card } from '../components/types'
+export enum Methods {
 	Post = 'POST',
 	Patch = 'PATCH',
 	Delete = 'DELETE',
 }
-const URL = 'https://training.nerdbord.io/api/v1/fischkapp/flashcards'
-const useFetch = () => {
+const useFetch = (url: string) => {
 	const [dataFromApi, setDataFromApi] = useState<Card[]>([])
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		setIsLoading(true)
-		fetch(URL, {
+		fetch(url, {
 			method: 'GET',
 		})
 			.then(res => {
@@ -32,41 +31,6 @@ const useFetch = () => {
 				console.error(`Failed to fetch flashcards: ${error}`)
 			})
 	}, [])
-	const addNewCard =  (front: string, back: string) => {
-		const options = {
-			headers: {
-				Authorization: 'secret_token',
-			},
-			body: JSON.stringify({ front: front, back: back }),
-		}
-		 fetchData(Methods.Post, URL, options)
-	}
-	const editCard =  (id: string, front: string, back: string) => {
-		const options = {
-			headers: {
-				Authorization: 'secret_token',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				front: front,
-				back: back,
-			}),
-		}
-		 fetchData(Methods.Patch, `${URL}/${id}`, options)
-	}
-	const deleteCard =  (id: string) => {
-		const options = {
-			headers: {
-				Authorization: 'secret_token',
-			},
-		}
-		 fetchData(Methods.Delete, `${URL}/${id}`, options)
-		setDataFromApi(prevData => {
-			return prevData.filter(() => {
-				id !== prevData['_id']
-			})
-		})
-	}
 	const fetchData = (
 		method = Methods.Post,
 		URL: string,
@@ -97,7 +61,7 @@ const useFetch = () => {
 				console.error('Error', error)
 			})
 	}
-	return { dataFromApi, setDataFromApi, isLoading, addNewCard, editCard, deleteCard }
+	return { dataFromApi, setDataFromApi, isLoading, fetchData }
 }
 
 export { useFetch }
