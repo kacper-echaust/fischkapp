@@ -21,7 +21,7 @@ const Buttons = ({ side, onBack, onSave, onCancel, onNext, edit }: ButtonsProps)
 			<button className={styles.cancelButton} {...propsFirstButton}>
 				{propsFirstButton.value}
 			</button>
-			<button className={styles.nextButton} {...propsSecondButton} data-testid='save-button'>
+			<button className={styles.nextButton} {...propsSecondButton}>
 				{propsSecondButton.value}
 			</button>
 		</div>
