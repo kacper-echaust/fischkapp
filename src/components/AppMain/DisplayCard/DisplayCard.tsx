@@ -3,11 +3,12 @@ import styles from './DisplayCard.module.css'
 import { Buttons } from '../NewCard/Buttons/Buttons'
 import { CardContext, CardSide } from '../../Context/CardListProvider'
 import { Card } from '../../types'
-import { useFetch } from '../../../useFetch'
+import { useCardsApi } from '../../../hooks/useCardsApi'
+import { API_URL } from '../../config'
 
 const DisplayCard = ({ front, back, _id }: Card) => {
 	const { setCardList } = useContext(CardContext)
-	const { editCard, deleteCard } = useFetch()
+	const { editCard, deleteCard } = useCardsApi(API_URL)
 	const [isEdit, setIsEdit] = useState(false)
 	const [currentSide, setCurrentSide] = useState(CardSide.Front)
 	const [currentValue, setCurrentValue] = useState({
