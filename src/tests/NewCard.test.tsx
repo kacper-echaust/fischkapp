@@ -1,73 +1,34 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { CardSide, NewCard } from '../components/AppMain/NewCard/NewCard'
-import { Buttons } from '../components/AppMain/NewCard/Buttons/Buttons'
-import { AppHeader } from '../components/AppHeader'
+import { App } from '../App.tsx'
 
 test('error alert when front or back side is empty', () => {
-	const onNextMock = jest.fn()
-	const onSaveMock = jest.fn()
-    render(<AppHeader/>)
-	render(<NewCard />)
-	render(
-		<Buttons side={CardSide.Front} onCancel={() => {}} onSave={() => {}} onBack={() => {}} onNext={onNextMock} />
-	)
-	const input = screen.getByRole('textbox')
-    const addNewCardButton = screen.getByRole('img')
-	const nextButton = screen.getByRole('button', { name: /Next/i })
-	const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {})
+	render(<App />)
+	
+	const addNewCardButton = screen.getByAltText('plus icon')
 
-    fireEvent.click(addNewCardButton)
+	fireEvent.click(addNewCardButton)
 
-	fireEvent.change(input, {
-		target: { value: '' },
-	})
+	expect(screen.getByRole('form'))
 
-	fireEvent.click(nextButton)
-	render(
-		<Buttons side={CardSide.Front} onCancel={() => {}} onSave={onSaveMock} onBack={() => {}} onNext={() => {}} />
-	)
-	const saveButton = screen.getByRole('button', { name: /Save/i })
-	fireEvent.change(input, {
-		target: { value: '' },
-	})
+	const input = screen.getByRole('textbox') as HTMLInputElement
+	const nextButton = screen.getByRole('button', { name: /next/i })
 
-	fireEvent.click(saveButton)
+	expect(input.value).toBe('')
 
-	expect(alertSpy).toHaveBeenCalledWith('Please enter front and back card.')
+	fireEvent.change(input, { target: { value: 'front text' } })
 
-	alertSpy.mockRestore()
-})
-
-test('successfully add new card when both front and back values are present', () => {
-	const onNextMock = jest.fn()
-	const onSaveMock = jest.fn()
-	render(<NewCard />)
-	render(
-		<Buttons side={CardSide.Front} onCancel={() => {}} onSave={() => {}} onBack={() => {}} onNext={onNextMock} />
-	)
-	const input = screen.getByRole('textbox')
-
-	const nextButton = screen.getByRole('button', { name: /Next/i })
-	const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {})
-
-	fireEvent.change(input, {
-		target: { value: 'Front Side' },
-	})
+	expect(input.value).toBe('front text')
 
 	fireEvent.click(nextButton)
 
-	render(
-		<Buttons side={CardSide.Front} onCancel={() => {}} onSave={onSaveMock} onBack={() => {}} onNext={() => {}} />
-	)
-	const saveButton = screen.getByRole('button', { name: /Save/i })
-    
-	fireEvent.change(input, {
-		target: { value: 'Back Side' },
-	})
+	const saveButton = screen.getByRole('button', { name: /save/i })
+
+	fireEvent.change(input, { target: { value: 'back text' } })
+
+	expect(input.value).toBe('back text')
 
 	fireEvent.click(saveButton)
 
-	expect(alertSpy).toHaveBeenCalledWith('Form successfully submitted!')
-	alertSpy.mockRestore()
+	expect(screen.getByText('front text'))
 })

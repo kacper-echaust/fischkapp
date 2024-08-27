@@ -42,10 +42,7 @@ const NewCard = () => {
 			addNewCard(card.front, card.back)
 			setCurrentSide(CardSide.Front)
 			setIsAddingNewCard(false)
-			alert('Form successfully submitted!')
 			setCardValues({ front: '', back: '', _id: '' })
-		} else {
-			alert('Please enter front and back card.')
 		}
 	}
 	const handleDelete = () => {
