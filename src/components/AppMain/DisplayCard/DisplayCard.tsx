@@ -77,7 +77,12 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 						onChange={handleInputChange}
 						className={styles.input}
 					/>
-					<Buttons onSave={handleSave} onCancel={handleCancel} edit={isEdit} />
+					<Buttons
+						onSave={handleSave}
+						onCancel={handleCancel}
+						edit={isEdit}
+						disabled={currentValue.front === '' || currentValue.back === ''}
+					/>
 					<img src='trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 				</div>
 			) : (
