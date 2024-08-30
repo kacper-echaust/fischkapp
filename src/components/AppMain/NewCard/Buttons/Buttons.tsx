@@ -9,6 +9,7 @@ type ButtonsProps = {
 	onBack?: () => void
 	onSave: () => void
 	edit?: boolean
+	disabled: boolean
 }
 
 const Buttons = ({ side, onBack, onSave, onCancel, onNext, edit }: ButtonsProps) => {

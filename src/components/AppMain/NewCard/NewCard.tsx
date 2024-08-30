@@ -71,6 +71,7 @@ const NewCard = () => {
 				onBack={handleBack}
 				onSave={handleSave}
 				edit={false}
+				disabled={card.front || card.back === '' ? false : true}
 			/>
 			{currentSide === CardSide.Back && (
 				<img src='trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />

@@ -1,8 +1,9 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { App } from '../App.tsx'
+import { NewCard } from '../components/AppMain/NewCard/NewCard.tsx'
 
-test('error alert when front or back side is empty', () => {
+test('add card', () => {
 	render(<App />)
 	
 	const addNewCardButton = screen.getByAltText('plus icon')
@@ -10,6 +11,7 @@ test('error alert when front or back side is empty', () => {
 	fireEvent.click(addNewCardButton)
 
 	expect(screen.getByRole('form'))
+
 
 	const input = screen.getByRole('textbox') as HTMLInputElement
 	const nextButton = screen.getByRole('button', { name: /next/i })
@@ -31,4 +33,23 @@ test('error alert when front or back side is empty', () => {
 	fireEvent.click(saveButton)
 
 	expect(screen.getByText('front text'))
+})
+
+test('can not add empty card', () => {
+
+	render(<NewCard/>)
+
+	const input = screen.getByRole('textbox') as HTMLInputElement
+	const nextButton = screen.getByRole('button', {name: /next/i})
+
+	expect(input.value).toBe('')
+
+	fireEvent.click(nextButton)
+
+	const saveButton = screen.getByRole('button', {name: /save/i})
+
+	expect(input.value).toBe('')
+	
+	expect(saveButton).toBeFalsy
+
 })
