@@ -1,4 +1,6 @@
-import { useFetch } from '../../../useFetch'
+
+import { useCardsApi } from '../../../hooks/useCardsApi'
+import { API_URL } from '../../config'
 import { CardContext, CardSide } from '../../Context/CardListProvider'
 import { Buttons } from './Buttons/Buttons'
 import styles from './NewCard.module.css'
@@ -6,7 +8,7 @@ import React, { ChangeEvent, useContext, useState } from 'react'
 
 const NewCard = () => {
 	const { setIsAddingNewCard, setCardList } = useContext(CardContext)
-	const { addNewCard } = useFetch()
+	const { addNewCard } = useCardsApi(API_URL)
 	const [card, setCardValues] = useState({
 		front: '',
 		back: '',
@@ -35,15 +37,13 @@ const NewCard = () => {
 		setCurrentSide(CardSide.Front)
 	}
 	const handleSave = () => {
-		if (card.front && card.back) {
-			setCardList(prevCardList => {
-				return [...prevCardList, card]
-			})
-			addNewCard(card.front, card.back)
-			setCurrentSide(CardSide.Front)
-			setIsAddingNewCard(false)
-			setCardValues({ front: '', back: '', _id: '' })
-		}
+		setCardList(prevCardList => {
+			return [...prevCardList, card]
+		})
+		addNewCard(card.front, card.back)
+		setCurrentSide(CardSide.Front)
+		setIsAddingNewCard(false)
+		setCardValues({ front: '', back: '', _id: '' })
 	}
 	const handleDelete = () => {
 		setCardValues({ front: '', back: '', _id: '' })
@@ -55,8 +55,7 @@ const NewCard = () => {
 			className={styles.form}
 			onSubmit={event => {
 				event.preventDefault()
-			}}
-			role='form'>
+			}}>
 			{currentSide && <label className={styles.label}>{card.front}</label>}
 			<input
 				className={styles.input}
