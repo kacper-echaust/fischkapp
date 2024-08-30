@@ -12,17 +12,20 @@ type ButtonsProps = {
 	disabled: boolean
 }
 
-const Buttons = ({ side, onBack, onSave, onCancel, onNext, edit }: ButtonsProps) => {
+const Buttons = ({ side, onBack, onSave, onCancel, onNext, edit, disabled }: ButtonsProps) => {
 	const propsFirstButton =
 		side === CardSide.Front || edit ? { onClick: onCancel, value: 'Cancel' } : { onClick: onBack, value: 'Back' }
 	const propsSecondButton =
-		side === CardSide.Front ? { onClick: onNext, value: 'Next' } : { onClick: onSave, value: 'Save' }
+		side === CardSide.Front ? { onClick: onNext, value: 'Next' } : { onClick: onSave, value: 'Save', disabled }
 	return (
 		<div className={styles.containerButtons}>
 			<button className={styles.cancelButton} {...propsFirstButton}>
 				{propsFirstButton.value}
 			</button>
-			<button className={styles.nextButton} {...propsSecondButton}>
+			<button
+				className={styles.nextButton}
+				{...propsSecondButton}
+				>
 				{propsSecondButton.value}
 			</button>
 		</div>
