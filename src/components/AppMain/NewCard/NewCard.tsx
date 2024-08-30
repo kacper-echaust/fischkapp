@@ -1,3 +1,4 @@
+
 import { useCardsApi } from '../../../hooks/useCardsApi'
 import { API_URL } from '../../config'
 import { CardContext, CardSide } from '../../Context/CardListProvider'
@@ -69,6 +70,7 @@ const NewCard = () => {
 				onBack={handleBack}
 				onSave={handleSave}
 				edit={false}
+				disabled={card.front === '' || card.back === ''}
 			/>
 			{currentSide === CardSide.Back && (
 				<img src='trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
