@@ -69,7 +69,7 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 	}
 
 	return (
-		<div className={styles.container} onClick={!isEdit ? handleFlip : undefined} ref={cardRef}>
+		<div className={styles.container} onClick={!isEdit ? handleFlip : undefined} ref={cardRef} role='card'>
 			{isEdit ? (
 				<div className={styles.editModeContainer}>
 					<input
