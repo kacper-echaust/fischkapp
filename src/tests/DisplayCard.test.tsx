@@ -35,3 +35,10 @@ test('delete card', () => {
 		expect(cards.length).toBe(cards.length - 1)
 	})
 })
+
+test('display cards', () => {
+	render(<AppMain/>)
+
+	const cards = screen.getAllByRole('card')
+	
+})
