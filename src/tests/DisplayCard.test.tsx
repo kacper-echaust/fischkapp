@@ -41,4 +41,5 @@ test('display cards', () => {
 
 	const cards = screen.getAllByRole('card')
 	
+	expect(cards.length).toBeGreaterThan(0)
 })
