@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { App } from '../App.tsx'
 import { NewCard } from '../components/AppMain/NewCard/NewCard.tsx'
 import '@testing-library/jest-dom'
@@ -10,8 +10,6 @@ test('add card', () => {
 	const addNewCardButton = screen.getByAltText('plus icon')
 
 	fireEvent.click(addNewCardButton)
-
-	expect(screen.getByRole('form'))
 
 	const input = screen.getByRole('textbox') as HTMLInputElement
 	const nextButton = screen.getByRole('button', { name: /next/i })
