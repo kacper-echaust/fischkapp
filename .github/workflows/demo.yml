@@ -21,11 +21,6 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: '16'
-            - name: Deploy to Gihub Pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./build
                     
             - name: Install dependencies
               run: npm install
@@ -37,12 +32,9 @@ jobs:
               run: npm run build
 
     deploy:
-        environment:
-            name: github-pages
-            url: ${{ steps.build-publish.outputs.page_url }}
         runs-on: ubuntu-latest
         steps:
-            - id: build-publish
-              uses: bitovi/github-actions-react-to-github-pages@v1.2.4
-              with:
-                  path: ./build
+        - id: build-publish
+          uses: bitovi/github-actions-react-to-github-pages@v1.2.4
+          with:
+            path: build # change to your build folder
