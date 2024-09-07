@@ -1,41 +1,43 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main  
+    push:
+        branches:
+            - main
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
+    contents: read
+    pages: write
+    id-token: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v3
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16' 
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '16'
 
-      - name: Install dependencies
-        run: npm install
+            - name: Install dependencies
+              run: npm install
 
-      - name: Run tests
-        run: npm test
+            - name: Run tests
+              run: npm test
 
-      - name: Build the app
-        run: npm run build
+            - name: Build the app
+              run: npm run build
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - id: build-publish
-      uses: bitovi/github-actions-react-to-github-pages@v1.2.4
-      with:
-        path: ./build
+    deploy:
+        environment:
+            name: github-pages
+            url: ${{ steps.build-publish.outputs.page_url }}
+        runs-on: ubuntu-latest
+        steps:
+            - id: build-publish
+              uses: bitovi/github-actions-react-to-github-pages@v1.2.4
+              with:
+                  path: ./build
