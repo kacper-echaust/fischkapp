@@ -1,21 +1,22 @@
 name: Deploy to GitHub Pages
-
 on:
+    pull_request:
     push:
         branches:
             - main
-
-permissions:
-    contents: read
-    pages: write
-    id-token: write
-
 jobs:
     build:
         runs-on: ubuntu-latest
+        
         steps:
+            - name: Deploy GitHub Pages site
+              uses: actions/deploy-pages@v4.0.5
+              
             - name: Check out the repository
               uses: actions/checkout@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./dist
 
             - name: Set up Node.js
               uses: actions/setup-node@v3
@@ -31,13 +32,24 @@ jobs:
             - name: Build the app
               run: npm run build
 
+                
+            
     deploy:
+        needs: build
+        permissions:
+              pages: write     
+              id-token: write  
+
         environment:
-            name: github-pages
-            url: ${{ steps.build-publish.outputs.page_url }}
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+
         runs-on: ubuntu-latest
         steps:
-        - id: build-publish
-          uses: bitovi/github-actions-react-to-github-pages@v1.2.4
-          with:
-            path: ./dist
+          - name: Deploy to GitHub Pages
+            id: deployment
+            uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
+
+  
+  
+          
