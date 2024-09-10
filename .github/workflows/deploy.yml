@@ -22,10 +22,9 @@ jobs:
 
       - name: Build project
         run: npm run build
-    
       - name: Tests
         run: npm test
-        
+
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
@@ -50,3 +49,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+
