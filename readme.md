@@ -17,3 +17,7 @@ This project aims to create a simple app that supports learning.
 ### 🔧 Technical requirements
 
 React.js, CSS Modules
+
+### Github Pages
+
+https://kacper-echaust.github.io/fischkapp/
