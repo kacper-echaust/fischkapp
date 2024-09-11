@@ -73,7 +73,7 @@ const NewCard = () => {
 				disabled={card.front === '' || card.back === ''}
 			/>
 			{currentSide === CardSide.Back && (
-				<img src='/trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
+				<img src='./public/trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 			)}
 		</form>
 	)
