@@ -84,13 +84,18 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 						edit={isEdit}
 						disabled={currentValue.front === '' || currentValue.back === ''}
 					/>
-					<img src='/trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
+					<img
+						src='./public/trash-icon.png'
+						alt='trash icon'
+						className={styles.editIcon}
+						onClick={handleDelete}
+					/>
 				</div>
 			) : (
 				<div>
 					<p>{currentSide === CardSide.Front ? currentValue.front : currentValue.back}</p>
 					<img
-						src='/edit-icon.png'
+						src='./public/edit-icon.png'
 						alt='edit icon'
 						className={styles.editIcon}
 						onClick={event => {
