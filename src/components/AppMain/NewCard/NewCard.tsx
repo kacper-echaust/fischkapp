@@ -1,4 +1,3 @@
-
 import { useCardsApi } from '../../../hooks/useCardsApi'
 import { API_URL } from '../../config'
 import { CardContext, CardSide } from '../../Context/CardListProvider'
@@ -6,9 +5,10 @@ import { Buttons } from './Buttons/Buttons'
 import styles from './NewCard.module.css'
 import React, { ChangeEvent, useContext, useState } from 'react'
 import trashIcon from '../../../../public/trash-icon.png'
+import { ValidationError } from '../../modals/ValidationError'
 
 const NewCard = () => {
-	const { setIsAddingNewCard, setCardList } = useContext(CardContext)
+	const { setIsAddingNewCard, setCardList, setIsEmptyValue, isEmptyValue } = useContext(CardContext)
 	const { addNewCard } = useCardsApi(API_URL)
 	const [card, setCardValues] = useState({
 		front: '',
@@ -18,33 +18,38 @@ const NewCard = () => {
 	const [currentSide, setCurrentSide] = useState(CardSide.Front)
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		if (currentSide === CardSide.Front) {
-			setCardValues(prevValue => {
-				return { ...prevValue, front: event.target.value }
-			})
-		} else {
-			setCardValues(prevValue => {
-				return { ...prevValue, back: event.target.value }
-			})
-		}
+		setCardValues(prevValue => {
+			return { ...prevValue, [currentSide]: event.target.value }
+		})
 	}
 	const handleCancel = () => {
 		setIsAddingNewCard(false)
 	}
 	const handleNext = () => {
-		setCurrentSide(CardSide.Back)
+		if (!card.front) {
+			setIsEmptyValue(true)
+		} else {
+			setIsEmptyValue(false)
+			setCurrentSide(CardSide.Back)
+		}
 	}
 	const handleBack = () => {
 		setCurrentSide(CardSide.Front)
+		setIsEmptyValue(false)
 	}
 	const handleSave = () => {
-		setCardList(prevCardList => {
-			return [...prevCardList, card]
-		})
-		addNewCard(card.front, card.back)
-		setCurrentSide(CardSide.Front)
-		setIsAddingNewCard(false)
-		setCardValues({ front: '', back: '', _id: '' })
+		if (!card.back || !card.front) {
+			setIsEmptyValue(true)
+		} else {
+			setIsEmptyValue(false)
+			setCardList(prevCardList => {
+				return [...prevCardList, card]
+			})
+			addNewCard(card.front, card.back)
+			setCurrentSide(CardSide.Front)
+			setIsAddingNewCard(false)
+			setCardValues({ front: '', back: '', _id: '' })
+		}
 	}
 	const handleDelete = () => {
 		setCardValues({ front: '', back: '', _id: '' })
@@ -60,6 +65,7 @@ const NewCard = () => {
 			{currentSide && <label className={styles.label}>{card.front}</label>}
 			<input
 				className={styles.input}
+				style={isEmptyValue ? {borderColor: 'red'} : {borderColor: 'black'}}
 				type='text'
 				onChange={handleInputChange}
 				value={currentSide === CardSide.Back ? card.back : card.front}
@@ -71,11 +77,11 @@ const NewCard = () => {
 				onBack={handleBack}
 				onSave={handleSave}
 				edit={false}
-				disabled={card.front === '' || card.back === ''}
 			/>
 			{currentSide === CardSide.Back && (
 				<img src={trashIcon} alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 			)}
+			{isEmptyValue && <ValidationError />}
 		</form>
 	)
 }
