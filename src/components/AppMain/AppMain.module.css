@@ -1,0 +1,7 @@
+.main {
+	height: 100%;
+    min-height: 750px;
+    background: #f1f2f3;
+    position: relative;
+    padding: 15px 0;
+}
