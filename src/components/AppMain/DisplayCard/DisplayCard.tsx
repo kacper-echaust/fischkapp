@@ -5,6 +5,8 @@ import { CardContext, CardSide } from '../../Context/CardListProvider'
 import { Card } from '../../types'
 import { useCardsApi } from '../../../hooks/useCardsApi'
 import { API_URL } from '../../config'
+import trashIcon from '../../../../public/trash-icon.png'
+import editIcon from '../../../../public/edit-icon.png'
 
 const DisplayCard = ({ front, back, _id }: Card) => {
 	const { setCardList } = useContext(CardContext)
@@ -84,18 +86,13 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 						edit={isEdit}
 						disabled={currentValue.front === '' || currentValue.back === ''}
 					/>
-					<img
-						src='./public/trash-icon.png'
-						alt='trash icon'
-						className={styles.editIcon}
-						onClick={handleDelete}
-					/>
+					<img src={trashIcon} alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 				</div>
 			) : (
 				<div>
 					<p>{currentSide === CardSide.Front ? currentValue.front : currentValue.back}</p>
 					<img
-						src='./public/edit-icon.png'
+						src={editIcon}
 						alt='edit icon'
 						className={styles.editIcon}
 						onClick={event => {

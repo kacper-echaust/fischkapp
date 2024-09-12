@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import styles from './AppHeader.module.css'
 import { CardContext } from './Context/CardListProvider'
+import logoIcon from '../../public/Logo.png'
+import plusIcon from '../../public/Icon.png'
 
 const AppHeader = () => {
 	const { handleAddCard, cardList } = useContext(CardContext)
@@ -8,11 +10,11 @@ const AppHeader = () => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.logo}>
-				<img src='./public/Logo.png' alt='logo' />
+				<img src={logoIcon} alt='logo' />
 				<p>{`Cards: ${cardList.length}`}</p>
 			</div>
 			<div className={styles.circle} onClick={handleAddCard}>
-				<img src='./public/Icon.png' alt='plus icon' />
+				<img src={plusIcon} alt='plus icon' />
 			</div>
 		</header>
 	)

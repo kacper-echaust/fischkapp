@@ -5,6 +5,7 @@ import { CardContext, CardSide } from '../../Context/CardListProvider'
 import { Buttons } from './Buttons/Buttons'
 import styles from './NewCard.module.css'
 import React, { ChangeEvent, useContext, useState } from 'react'
+import trashIcon from '../../../../public/trash-icon.png'
 
 const NewCard = () => {
 	const { setIsAddingNewCard, setCardList } = useContext(CardContext)
@@ -73,7 +74,7 @@ const NewCard = () => {
 				disabled={card.front === '' || card.back === ''}
 			/>
 			{currentSide === CardSide.Back && (
-				<img src='./public/trash-icon.png' alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
+				<img src={trashIcon} alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
 			)}
 		</form>
 	)
