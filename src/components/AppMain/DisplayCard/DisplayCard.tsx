@@ -7,9 +7,10 @@ import { useCardsApi } from '../../../hooks/useCardsApi'
 import { API_URL } from '../../config'
 import trashIcon from '../../../../public/trash-icon.png'
 import editIcon from '../../../../public/edit-icon.png'
+import { ValidationError } from '../../modals/ValidationError'
 
 const DisplayCard = ({ front, back, _id }: Card) => {
-	const { setCardList } = useContext(CardContext)
+	const { setCardList,setIsEmptyValue,isEmptyValue } = useContext(CardContext)
 	const { editCard, deleteCard } = useCardsApi(API_URL)
 	const [isEdit, setIsEdit] = useState(false)
 	const [currentSide, setCurrentSide] = useState(CardSide.Front)
@@ -27,13 +28,19 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 		}))
 	}
 	const handleSave = () => {
-		setCardList(prevCardList => {
-			return prevCardList.map(card => {
-				return card._id === _id ? { ...card, front: currentValue.front, back: currentValue.back } : card
+		if(!currentValue[currentSide]){
+			setIsEmptyValue(true)
+		}
+		else{
+			setIsEmptyValue(false)
+			setCardList(prevCardList => {
+				return prevCardList.map(card => {
+					return card._id === _id ? { ...card, front: currentValue.front, back: currentValue.back } : card
+				})
 			})
-		})
-		editCard(_id, currentValue.front, currentValue.back)
-		setIsEdit(false)
+			editCard(_id, currentValue.front, currentValue.back)
+			setIsEdit(false)
+		}
 	}
 	const handleCancel = () => {
 		setIsEdit(false)
@@ -84,9 +91,9 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 						onSave={handleSave}
 						onCancel={handleCancel}
 						edit={isEdit}
-						disabled={currentValue.front === '' || currentValue.back === ''}
 					/>
 					<img src={trashIcon} alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
+					{isEmptyValue && <ValidationError/>}
 				</div>
 			) : (
 				<div>

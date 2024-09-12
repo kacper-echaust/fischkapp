@@ -9,14 +9,13 @@ type ButtonsProps = {
 	onBack?: () => void
 	onSave: () => void
 	edit?: boolean
-	disabled: boolean
 }
 
-const Buttons = ({ side, onBack, onSave, onCancel, onNext, edit, disabled }: ButtonsProps) => {
+const Buttons = ({ side, onBack, onSave, onCancel, onNext, edit }: ButtonsProps) => {
 	const propsFirstButton =
 		side === CardSide.Front || edit ? { onClick: onCancel, value: 'Cancel' } : { onClick: onBack, value: 'Back' }
 	const propsSecondButton =
-		side === CardSide.Front ? { onClick: onNext, value: 'Next' } : { onClick: onSave, value: 'Save', disabled }
+		side === CardSide.Front ? { onClick: onNext, value: 'Next' } : { onClick: onSave, value: 'Save' }
 	return (
 		<div className={styles.containerButtons}>
 			<button className={styles.cancelButton} {...propsFirstButton}>

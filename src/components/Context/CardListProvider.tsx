@@ -13,6 +13,8 @@ type CardContextType = {
 	isAddingNewCard: boolean
 	setIsAddingNewCard: React.Dispatch<React.SetStateAction<boolean>>
 	handleAddCard: () => void
+	isEmptyValue: boolean
+	setIsEmptyValue: React.Dispatch<React.SetStateAction<boolean>>
 }
 const defaultState = [{ front: '', back: '', _id: '' }]
 const defaultContext: CardContextType = {
@@ -21,6 +23,8 @@ const defaultContext: CardContextType = {
 	isAddingNewCard: false,
 	setIsAddingNewCard: () => {},
 	handleAddCard: () => {},
+	isEmptyValue: false,
+	setIsEmptyValue: () => {}
 }
 
 const CardContext = createContext<CardContextType>(defaultContext)
@@ -29,6 +33,7 @@ const CardListProvider = ({ children }) => {
 	const [cardList, setCardList] = useState<Card[]>([])
 	const { dataFromApi } = useFetch(API_URL)
 	const [isAddingNewCard, setIsAddingNewCard] = useState(false)
+	const [isEmptyValue,setIsEmptyValue] = useState(false)
 	const handleAddCard = () => {
 		setIsAddingNewCard(true)
 	}
@@ -44,6 +49,8 @@ const CardListProvider = ({ children }) => {
 				isAddingNewCard,
 				setIsAddingNewCard,
 				handleAddCard,
+				isEmptyValue,
+				setIsEmptyValue
 			}}>
 			{children}
 		</CardContext.Provider>
