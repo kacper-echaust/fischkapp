@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { CardContext } from "../Context/CardListProvider";
 import { NewCard } from "./NewCard/NewCard";
 import { DisplayCard } from "./DisplayCard/DisplayCard";
+import styles from './AppMain.module.css'
 
 const AppMain = () => {
   const { isAddingNewCard, cardList } = useContext(CardContext);
@@ -15,7 +16,7 @@ const AppMain = () => {
       />
     );
   });
-  return <main>{isAddingNewCard ? <NewCard /> : displayCardList}</main>;
+  return <main className={styles.main}>{isAddingNewCard ? <NewCard /> : displayCardList}</main>;
 };
 
 export { AppMain };
