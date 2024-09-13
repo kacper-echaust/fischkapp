@@ -4,8 +4,8 @@ import { CardContext, CardSide } from '../../Context/CardListProvider'
 import { Buttons } from './Buttons/Buttons'
 import styles from './NewCard.module.css'
 import React, { ChangeEvent, useContext, useState } from 'react'
-import trashIcon from '../../../../public/trash-icon.png'
 import { ValidationError } from '../../modals/ValidationError'
+import trashIcon from '../../../assets/trash-icon.png'
 
 const NewCard = () => {
 	const { setIsAddingNewCard, setCardList, setIsEmptyValue, isEmptyValue } = useContext(CardContext)

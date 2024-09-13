@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styles from './AppHeader.module.css'
 import { CardContext } from './Context/CardListProvider'
-import logoIcon from '../../public/Logo.png'
-import plusIcon from '../../public/Icon.png'
+import logoIcon from '../assets/Logo.png'
+import plusIcon from '../assets/Icon.png'
 
 const AppHeader = () => {
 	const { handleAddCard, cardList } = useContext(CardContext)

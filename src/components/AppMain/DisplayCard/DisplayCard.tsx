@@ -5,9 +5,9 @@ import { CardContext, CardSide } from '../../Context/CardListProvider'
 import { Card } from '../../types'
 import { useCardsApi } from '../../../hooks/useCardsApi'
 import { API_URL } from '../../config'
-import trashIcon from '../../../../public/trash-icon.png'
-import editIcon from '../../../../public/edit-icon.png'
 import { ValidationError } from '../../modals/ValidationError'
+import trashIcon from '../../../assets/trash-icon.png'
+import editIcon from '../../../assets/edit-icon.png'
 
 const DisplayCard = ({ front, back, _id }: Card) => {
 	const { setCardList,setIsEmptyValue,isEmptyValue } = useContext(CardContext)
