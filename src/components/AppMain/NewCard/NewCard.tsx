@@ -62,7 +62,7 @@ const NewCard = () => {
 			onSubmit={event => {
 				event.preventDefault()
 			}}>
-			{currentSide && <label className={styles.label}>{card.front}</label>}
+			{currentSide === CardSide.Back && <label className={styles.label}>{card.front}</label>}
 			<input
 				className={styles.input}
 				style={isEmptyValue ? {borderColor: 'red'} : {borderColor: 'black'}}
