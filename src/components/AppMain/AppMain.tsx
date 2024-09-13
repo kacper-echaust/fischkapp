@@ -16,7 +16,7 @@ const AppMain = () => {
       />
     );
   });
-  return <main className={styles.main}>{isAddingNewCard ? <NewCard /> : displayCardList}</main>;
+  return <main className={styles.main}>{isAddingNewCard ? <><NewCard />  {displayCardList}</> : displayCardList}</main>;
 };
 
 export { AppMain };
