@@ -5,12 +5,12 @@ import { CardContext, CardSide } from '../../Context/CardListProvider'
 import { Card } from '../../types'
 import { useCardsApi } from '../../../hooks/useCardsApi'
 import { API_URL } from '../../config'
-import trashIcon from '../../../../public/trash-icon.png'
-import editIcon from '../../../../public/edit-icon.png'
 import { ValidationError } from '../../modals/ValidationError'
+import trashIcon from '../../../assets/trash-icon.png'
+import editIcon from '../../../assets/edit-icon.png'
 
 const DisplayCard = ({ front, back, _id }: Card) => {
-	const { setCardList,setIsEmptyValue,isEmptyValue } = useContext(CardContext)
+	const { setCardList, setIsEmptyValue, isEmptyValue } = useContext(CardContext)
 	const { editCard, deleteCard } = useCardsApi(API_URL)
 	const [isEdit, setIsEdit] = useState(false)
 	const [currentSide, setCurrentSide] = useState(CardSide.Front)
@@ -28,10 +28,9 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 		}))
 	}
 	const handleSave = () => {
-		if(!currentValue[currentSide]){
+		if (!currentValue[currentSide]) {
 			setIsEmptyValue(true)
-		}
-		else{
+		} else {
 			setIsEmptyValue(false)
 			setCardList(prevCardList => {
 				return prevCardList.map(card => {
@@ -44,6 +43,7 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 	}
 	const handleCancel = () => {
 		setIsEdit(false)
+		setCurrentValue({ front: front, back: back })
 	}
 	const handleEdit = event => {
 		event.stopPropagation()
@@ -87,13 +87,9 @@ const DisplayCard = ({ front, back, _id }: Card) => {
 						onChange={handleInputChange}
 						className={styles.input}
 					/>
-					<Buttons
-						onSave={handleSave}
-						onCancel={handleCancel}
-						edit={isEdit}
-					/>
+					<Buttons onSave={handleSave} onCancel={handleCancel} edit={isEdit} />
 					<img src={trashIcon} alt='trash icon' className={styles.editIcon} onClick={handleDelete} />
-					{isEmptyValue && <ValidationError/>}
+					{isEmptyValue && <ValidationError />}
 				</div>
 			) : (
 				<div>
