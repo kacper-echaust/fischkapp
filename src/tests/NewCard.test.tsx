@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { App } from '../App.tsx'
 import { NewCard } from '../components/AppMain/NewCard/NewCard.tsx'
 import '@testing-library/jest-dom'
+import { ValidationError } from '../components/modals/ValidationError.tsx'
 
 test('add card', () => {
 	render(<App />)
@@ -42,10 +43,17 @@ test('can not add empty card', () => {
 	fireEvent.change(input, { target: { value: '' } })
 
 	fireEvent.click(nextButton)
+	expect(<ValidationError />)
+	
+	fireEvent.change(input, { target: { value: 'value' } })
+	fireEvent.click(nextButton)
+	
+	waitFor(() => {
+		const saveButton = screen.getByRole('button', { name: /save/i })
+		fireEvent.change(input, { target: { value: '' } })
+		expect(<ValidationError />)
+	})
 
-	const saveButton = screen.getByRole('button', { name: /save/i })
 
-	fireEvent.change(input, { target: { value: '' } })
-
-	expect(saveButton).toBeDisabled()
+	
 })
